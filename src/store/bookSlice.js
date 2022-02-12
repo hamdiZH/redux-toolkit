@@ -12,10 +12,23 @@ const getBooks = createAsyncThunk( 'book/getBooks', async (_, thunkAPI) => {
     }
 })
 
+// HINT: We use extraReducer with actions that implement outside createSlice, ex: getBooks
+
 const bookSlice = createSlice({
   name: "book",
   initialState: { books: null },
   reducers: {},
+  extraReducers: {
+    [getBooks.pending]: (state, action) => {
+      console.log(action);
+    },
+    [getBooks.fulfilled]: (state, action) => {
+      console.log(action);
+    },
+    [getBooks.rejected]: (state, action) => {
+      console.log(action);
+    },
+  }
 })
 
 export default bookSlice.reducer;
