@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-function App() {
+import Header from './components/Header';
+import Container from './components/Container';
+import AddForm from './components/AddForm';
+import BookContainer from './components/Book/BookContainer';
+
+const App = () => {
   return (
-    <div>
-     <h1>Redux Toolkit</h1>
-    </div>
+    <Fragment>
+      <Header />
+      <Container>
+        <AddForm />
+        <BookContainer />
+      </Container>
+    </Fragment>
   );
-}
+};
 
 export default App;
