@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // CreateAsyncThunk takes two parameters: typePrefix and payloadCreator
-const getBooks = createAsyncThunk( 'book/getBooks', async (_, thunkAPI) => {
+export const getBooks = createAsyncThunk( 'book/getBooks', async (_, thunkAPI) => {
     try {
       const res = await fetch('http://localhost:5000/books');
       const data = await res.json();
