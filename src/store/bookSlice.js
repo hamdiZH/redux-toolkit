@@ -25,7 +25,7 @@ export const getBooks = createAsyncThunk(
 
 const bookSlice = createSlice({
   name: "book",
-  initialState: { books: null, isLoading: false },
+  initialState: { books: [], isLoading: false },
   reducers: {},
   // HINT: We use extraReducer with actions that implement outside createSlice, ex: getBooks
   extraReducers: {
@@ -35,6 +35,7 @@ const bookSlice = createSlice({
     },
     [getBooks.fulfilled]: (state, action) => {
       state.isLoading = false
+      state.books = action.payload
       console.log(action);
     },
     [getBooks.rejected]: (state, action) => {
