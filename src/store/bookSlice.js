@@ -4,6 +4,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const getBooks = createAsyncThunk(
   'book/getBooks',
   async (_, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
     try {
       // Part 2
       // dispatch({type: 'book/getBooks/pending', payload: undefined})
@@ -12,7 +13,7 @@ export const getBooks = createAsyncThunk(
       return data;
       // dispatch({type: 'book/getBooks/fulfilled', payload: data})
     } catch (error) {
-      console.log(error)
+      return rejectWithValue(error.message);
       // dispatch({type: 'book/getBooks/rejected', payload: error})
     }
 })
@@ -25,22 +26,21 @@ export const getBooks = createAsyncThunk(
 
 const bookSlice = createSlice({
   name: "book",
-  initialState: { books: [], isLoading: false },
+  initialState: { books: [], isLoading: false, error: null },
   reducers: {},
   // HINT: We use extraReducer with actions that implement outside createSlice, ex: getBooks
   extraReducers: {
     [getBooks.pending]: (state, action) => {
       state.isLoading = true;
-      console.log(action);
+      state.error = null;
     },
     [getBooks.fulfilled]: (state, action) => {
-      state.isLoading = false
-      state.books = action.payload
-      console.log(action);
+      state.isLoading = false;
+      state.books = action.payload;
     },
     [getBooks.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log(action);
+      state.error = action.payload;
     },
   }
 })
