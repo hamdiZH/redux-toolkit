@@ -1,22 +1,44 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 // CreateAsyncThunk takes two parameters: typePrefix and payloadCreator
 export const getBooks = createAsyncThunk(
   'book/getBooks',
   async (_, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const {rejectWithValue} = thunkAPI;
     try {
       // Part 2
       // dispatch({type: 'book/getBooks/pending', payload: undefined})
       const res = await fetch('http://localhost:5000/books');
-      const data = await res.json();
-      return data;
+      return await res.json();
+      // const data = await res.json();
+      // return data;
       // dispatch({type: 'book/getBooks/fulfilled', payload: data})
     } catch (error) {
       return rejectWithValue(error.message);
       // dispatch({type: 'book/getBooks/rejected', payload: error})
     }
-})
+  });
+
+export const insertBook = createAsyncThunk(
+  'book/insertBook',
+  async (bookData, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI
+    try {
+      const res = await fetch('http://localhost:5000/books', {
+        method: 'POST',
+        body: JSON.stringify(bookData),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      });
+      return await res.json();
+      // const data = await res.json();
+      // return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+)
 
 // Part1
 // getBooks -> createAsyncThunk -> create 3 types of actions
@@ -26,10 +48,11 @@ export const getBooks = createAsyncThunk(
 
 const bookSlice = createSlice({
   name: "book",
-  initialState: { books: [], isLoading: false, error: null },
+  initialState: {books: [], isLoading: false, error: null},
   reducers: {},
   // HINT: We use extraReducer with actions that implement outside createSlice, ex: getBooks
   extraReducers: {
+    // Get Books
     [getBooks.pending]: (state, action) => {
       state.isLoading = true;
       state.error = null;
@@ -39,6 +62,20 @@ const bookSlice = createSlice({
       state.books = action.payload;
     },
     [getBooks.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+
+    // Insert Book
+    [insertBook.pending]: (state, action) => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    [insertBook.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.books.push(action.payload)
+    },
+    [insertBook.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
