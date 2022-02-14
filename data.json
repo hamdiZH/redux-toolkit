@@ -11,6 +11,12 @@
       "title": "learn JS",
       "description": "Learn JS from scratch",
       "price": 50
+    },
+    {
+      "title": "Learn PHP",
+      "price": "30",
+      "description": "Learn PHP from scratch",
+      "id": 3
     }
   ]
 }
