@@ -6,6 +6,13 @@
       "description": "Learn React from Scratch",
       "username": "hamdi hijazi",
       "id": 5
+    },
+    {
+      "title": "Learn PHP",
+      "price": "40",
+      "description": "Learn PHP from Scratch",
+      "username": "hamdi hijazi",
+      "id": 6
     }
   ]
 }

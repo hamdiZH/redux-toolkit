@@ -19,7 +19,18 @@ const BooksList = ({
           type='button'
           className='btn btn-danger'
           disabled={!isLoggedIn}
-          onClick={() => dispatch(deleteBook(item.id))}
+          onClick={() => dispatch(deleteBook(item))
+            .unwrap()
+            .then((originalPromiseResult) => {
+              // handle result here
+              // console.log(originalPromiseResult)
+              alert(`${originalPromiseResult.title} Was Deleted`)
+          })
+            .catch((rejectedValueOrSerializedError) => {
+            // handle error here
+              console.log(rejectedValueOrSerializedError)
+          })
+          }
         >
           Delete
         </button>
