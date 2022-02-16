@@ -1,29 +1,11 @@
 {
   "books": [
     {
-      "id": 1,
-      "title": "learn React",
-      "description": "Learn React from scratch",
-      "price": 30
-    },
-    {
-      "id": 2,
-      "title": "learn JS",
-      "description": "Learn JS from scratch",
-      "price": 50
-    },
-    {
-      "title": "Learn PHP",
-      "price": "30",
-      "description": "Learn PHP from scratch",
-      "id": 3
-    },
-    {
-      "title": "learn C#",
-      "price": "50",
-      "description": "Learn C# from scratch",
+      "title": "Learn React ",
+      "price": "40",
+      "description": "Learn React from Scratch",
       "username": "hamdi hijazi",
-      "id": 4
+      "id": 5
     }
   ]
 }

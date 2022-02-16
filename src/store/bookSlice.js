@@ -22,7 +22,7 @@ export const getBooks = createAsyncThunk(
 export const insertBook = createAsyncThunk(
   'book/insertBook',
   async (bookData, thunkAPI) => {
-    const { rejectWithValue, getState } = thunkAPI
+    const {rejectWithValue, getState} = thunkAPI
     try {
       bookData.username = getState().auth.name;
       const res = await fetch('http://localhost:5000/books', {
@@ -41,6 +41,26 @@ export const insertBook = createAsyncThunk(
   }
 )
 
+export const deleteBook = createAsyncThunk(
+  'book/deleteBook',
+  async (id, thunkAPI) => {
+    const {rejectWithValue} = thunkAPI;
+    try {
+      await fetch(`http://localhost:5000/books/${id}`, {
+        method: 'DELETE',
+        // We don't need send 'post' body
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        }
+      });
+      return id;
+
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+)
+
 // Part1
 // getBooks -> createAsyncThunk -> create 3 types of actions
 // pending createAction('book/getBooks/pending', (payload) => {return payload})
@@ -53,7 +73,7 @@ const bookSlice = createSlice({
   reducers: {},
   // HINT: We use extraReducer with actions that implement outside createSlice, ex: getBooks
   extraReducers: {
-    // Get Books
+    //----------------------------- Get Books -----------------------------
     [getBooks.pending]: (state, action) => {
       state.isLoading = true;
       state.error = null;
@@ -67,7 +87,7 @@ const bookSlice = createSlice({
       state.error = action.payload;
     },
 
-    // Insert Book
+    //----------------------------- Insert Book -----------------------------
     [insertBook.pending]: (state, action) => {
       state.isLoading = true;
       state.error = null;
@@ -79,6 +99,21 @@ const bookSlice = createSlice({
     [insertBook.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+    },
+
+    //----------------------------- Delete Book -----------------------------
+    [deleteBook.pending]: (state, action) => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    [deleteBook.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.books = state.books.filter(el => el.id !== action.payload);
+      console.log(action.payload);
+    },
+    [deleteBook.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload
     },
   }
 })
