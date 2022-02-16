@@ -22,8 +22,9 @@ export const getBooks = createAsyncThunk(
 export const insertBook = createAsyncThunk(
   'book/insertBook',
   async (bookData, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI
+    const { rejectWithValue, getState } = thunkAPI
     try {
+      bookData.username = getState().auth.name;
       const res = await fetch('http://localhost:5000/books', {
         method: 'POST',
         body: JSON.stringify(bookData),

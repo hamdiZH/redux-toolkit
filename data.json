@@ -17,6 +17,13 @@
       "price": "30",
       "description": "Learn PHP from scratch",
       "id": 3
+    },
+    {
+      "title": "learn C#",
+      "price": "50",
+      "description": "Learn C# from scratch",
+      "username": "hamdi hijazi",
+      "id": 4
     }
   ]
 }
