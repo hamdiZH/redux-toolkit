@@ -6,7 +6,7 @@ const BooksList = ({
                      isLoggedIn,
                      deleteBook,
                      dispatch,
-                     getBook
+                     getBookById
                    }) => {
 
   const bookList = books.length > 0 ? books.map((item) => (
@@ -17,7 +17,7 @@ const BooksList = ({
           type='button'
           className='btn btn-primary'
           disabled={!isLoggedIn}
-          onClick={() => dispatch(getBook(item))}
+          onClick={() => getBookById(item.id)}
         >
           Read
         </button>

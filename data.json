@@ -13,13 +13,6 @@
       "description": "Learn PHP from Scratch",
       "username": "hamdi hijazi",
       "id": 6
-    },
-    {
-      "title": "Learn Java",
-      "price": "200",
-      "description": "Learn Java from Scratch",
-      "username": "hamdi hijazi",
-      "id": 7
     }
   ]
 }

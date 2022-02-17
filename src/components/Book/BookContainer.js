@@ -1,20 +1,28 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getBooks, deleteBook, getBook} from "../../store/bookSlice";
+import {getBooks, deleteBook} from "../../store/bookSlice";
 import BookInfo from './BookInfo';
 import BooksList from './BooksList';
 
 import './book.css';
 
 const PostContainer = () => {
-  const {isLoading, books, bookInfo} = useSelector((state) => state.books)
+  const [selectedBook, setSelectedBook] = useState({})
+  const {isLoading, books} = useSelector((state) => state.books)
   const {isLoggedIn} = useSelector((state) => state.auth)
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getBooks());
   }, [dispatch])
+
+
+  const getBookById = (id) => {
+    const selectedBook = books.find((item) => item.id === id);
+    setSelectedBook((prev) => {
+      return { ...prev, ...selectedBook }
+    })
+  }
 
   return (
     <Fragment>
@@ -27,12 +35,12 @@ const PostContainer = () => {
             isLoggedIn={isLoggedIn}
             deleteBook={deleteBook}
             dispatch={dispatch}
-            getBook={getBook}
+            getBookById={getBookById}
           />
         </div>
         <div className='col side-line'>
           <BookInfo
-            bookInfo={bookInfo}
+            info={selectedBook}
           />
         </div>
       </div>
