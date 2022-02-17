@@ -65,6 +65,26 @@ export const deleteBook = createAsyncThunk(
   }
 )
 
+export const getBook = createAsyncThunk(
+  'book/getBook',
+  async (item, thunkAPI) => {
+    const {rejectWithValue} = thunkAPI;
+    try {
+      await fetch(`http://localhost:5000/books/${item.id}`, {
+        method: 'GET',
+        // We don't need send 'post' body
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        }
+      });
+      return item;
+
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+)
+
 // Part1
 // getBooks -> createAsyncThunk -> create 3 types of actions
 // pending createAction('book/getBooks/pending', (payload) => {return payload})
@@ -73,7 +93,7 @@ export const deleteBook = createAsyncThunk(
 
 const bookSlice = createSlice({
   name: "book",
-  initialState: {books: [], isLoading: false, error: null},
+  initialState: {books: [], isLoading: false, error: null, bookInfo: null},
   reducers: {},
   // HINT: We use extraReducer with actions that implement outside createSlice, ex: getBooks
   extraReducers: {
@@ -115,6 +135,20 @@ const bookSlice = createSlice({
       state.books = state.books.filter(el => el.id !== action.payload.id);
     },
     [deleteBook.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload
+    },
+
+    //----------------------------- GET Book -----------------------------
+    [getBook.pending]: (state, action) => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    [getBook.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.bookInfo = action.payload;
+    },
+    [getBook.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload
     },
