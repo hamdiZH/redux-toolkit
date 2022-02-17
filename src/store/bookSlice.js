@@ -1,4 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {logInsert} from "./reportSlice";
 
 // CreateAsyncThunk takes two parameters: typePrefix and payloadCreator
 export const getBooks = createAsyncThunk(
@@ -22,7 +23,7 @@ export const getBooks = createAsyncThunk(
 export const insertBook = createAsyncThunk(
   'book/insertBook',
   async (bookData, thunkAPI) => {
-    const {rejectWithValue, getState} = thunkAPI
+    const {rejectWithValue, getState, dispatch} = thunkAPI
     try {
       bookData.username = getState().auth.name;
       const res = await fetch('http://localhost:5000/books', {
@@ -32,10 +33,13 @@ export const insertBook = createAsyncThunk(
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-      return await res.json();
-      // const data = await res.json();
-      // return data;
+      // return await res.json();
+      const data = await res.json();
+      //report
+      dispatch(logInsert({name: 'insertBook', status: 'success'}))
+      return data;
     } catch (error) {
+      dispatch(logInsert({name: 'insertBook', status: 'failed'}))
       return rejectWithValue(error.message);
     }
   }

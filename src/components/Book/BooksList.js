@@ -28,7 +28,7 @@ const BooksList = ({
           })
             .catch((rejectedValueOrSerializedError) => {
             // handle error here
-              console.log(rejectedValueOrSerializedError)
+              console.log(rejectedValueOrSerializedError.message)
           })
           }
         >
