@@ -27,7 +27,6 @@ const PostContainer = () => {
             isLoggedIn={isLoggedIn}
             deleteBook={deleteBook}
             dispatch={dispatch}
-            bookInfo={bookInfo}
             getBook={getBook}
           />
         </div>
